@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RSS Plus</string>
+    <string name="action_settings">Settings</string>
+    <string name="new_feed">+</string>
+    <string name="feed_link_t">Feed URL</string>
+    <string name="feed_name_t">Feed Name</string>
+	<string name="delete_feed">Delete Feed</string>
+	<string name="refresh_feed">Refresh feed</string>
+	<string name="refresh_feeds">&gt;</string>
+	<string name="back_page">Back</string>
+	<string name="forward_page">Forward</string>
+	<string name="user_agent">User Agent</string>
+	<string name="user_agent_string">Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-us) AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0 Safari/533.16</string>
+	<string name="html">&lt;html&gt;</string>
+	<string name="head">&lt;head&gt;</string>
+	<string name="head_end">&lt;/head&gt;</string>
+	<string name="html_end">&lt;/html&gt;</string>
+	<string name="style">&lt;style type=&quot;text/css&quot;&gt;</string>
+	<string name="style_end">&lt;/style&gt;</string>
+	<string name="style_img">img{max-width:100%;height:initial;}</string>
+	<string name="style_p">div,p,span,a{max-width:100%;background-color:black;color:white;font-size:18pt;}</string>
+	<string name="title">&lt;Title&gt;</string>
+	<string name="title_end">&lt;/Title&gt;</string>
+	<string name="meta">&lt;meta name=\"viewport\" content=\"target-densitydpi=device-dpi, width=device-width\" /&gt;</string>
+	<string name="desc"></string>
+	<string name="delete">Delete</string>
+	<string name="favorite">Toggle Favorite</string>
+	
+</resources>
