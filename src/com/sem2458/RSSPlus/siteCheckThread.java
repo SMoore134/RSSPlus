@@ -31,12 +31,14 @@ public class siteCheckThread implements Runnable{
 	public Channel channel;
 	public boolean checkMulti;
 	public boolean updateUI;
+	public List<Item> items;
 
 	public siteCheckThread(Context context, Activity activity, Channel channel, boolean checkMulti, boolean updateUI){
 		this.context = context;
 		this.activity = activity;
 		this.channel = channel;
 		this.checkMulti = checkMulti;
+		items = new ArrayList<Item>();
 	}
 	@Override
 	public void run() {
@@ -52,6 +54,9 @@ public class siteCheckThread implements Runnable{
 		if(activity!=null){
 			onSelectedListener callback = (onSelectedListener)activity;
 			callback.onDone();
+		}
+		if(!updateUI){
+			RSSNotification.setNotification(items.size());
 		}
 
 	}
@@ -76,26 +81,27 @@ public class siteCheckThread implements Runnable{
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			InputStream in = urlConnection.getInputStream();
 			try {
-				List<Item> items = Parser(in, listString.get(0));
-				for(Item item: items){
-					ContentValues values = new ContentValues();
-					values.put(DatabaseHandlerHelper.keyAuthor, item.author);
-					values.put(DatabaseHandlerHelper.keyDescription, item.description);
-					values.put(DatabaseHandlerHelper.keyFeed, channel.link);
-					values.put(DatabaseHandlerHelper.keyFeedName, channel.title);
-					values.put(DatabaseHandlerHelper.keyLink, item.link);
-					values.put(DatabaseHandlerHelper.keyPubDate, item.pubDate);
-					values.put(DatabaseHandlerHelper.keyRead, "0");
-					values.put(DatabaseHandlerHelper.keyTitle, item.title);
-					values.put(DatabaseHandlerHelper.keyFavorite, "0");
-					handler.addRow(true, values);
-					
-				}
+				Parser(in, listString.get(0));
+				
 			} catch (XmlPullParserException e){
 				e.printStackTrace();
 			}
 			urlConnection.disconnect();
 			listString.remove(0);
+		}
+		for(Item item: items){
+			ContentValues values = new ContentValues();
+			values.put(DatabaseHandlerHelper.keyAuthor, item.author);
+			values.put(DatabaseHandlerHelper.keyDescription, item.description);
+			values.put(DatabaseHandlerHelper.keyFeed, channel.link);
+			values.put(DatabaseHandlerHelper.keyFeedName, channel.title);
+			values.put(DatabaseHandlerHelper.keyLink, item.link);
+			values.put(DatabaseHandlerHelper.keyPubDate, item.pubDate);
+			values.put(DatabaseHandlerHelper.keyRead, "0");
+			values.put(DatabaseHandlerHelper.keyTitle, item.title);
+			values.put(DatabaseHandlerHelper.keyFavorite, "0");
+			handler.addRow(true, values);
+			
 		}
 	}
 
@@ -142,8 +148,7 @@ public class siteCheckThread implements Runnable{
 		return x;
 	}
 
-	public List<Item> Parser(InputStream in, String link) throws XmlPullParserException, IOException{
-		List<Item> items = new ArrayList<Item>();
+	public void Parser(InputStream in, String link) throws XmlPullParserException, IOException{
 		Item item = null;
 		Log.d("Stephen", channel.title);
 		String text = "";
@@ -179,7 +184,7 @@ public class siteCheckThread implements Runnable{
 								handler.updateFeedRow(false, channel);
 							}else{
 								Log.d("Stephen", "size of items: "+items.size());
-								return items;
+								return;
 							}
 							isChannel = false;
 						}
@@ -233,7 +238,7 @@ public class siteCheckThread implements Runnable{
 						if(item != null){
 							item.pubDate = DateHandler.dateToLong(text);
 							if(Long.parseLong(lastBuildDate)>Long.parseLong(item.pubDate)){
-								return items;
+								return;
 							}
 							Log.d("Stephen", "pubDate: "+text);
 						}
@@ -263,7 +268,7 @@ public class siteCheckThread implements Runnable{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return items;
+		
 	}
 
 	public static String replace(String source, String regex, String replacement){

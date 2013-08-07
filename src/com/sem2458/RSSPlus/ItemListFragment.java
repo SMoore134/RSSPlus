@@ -94,7 +94,8 @@ public class ItemListFragment extends Fragment{
 				String s = t.getText().toString();
 				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
 				Item i = (Item) a2.get(selectedInt);
-
+				i.read="1";
+				handler.updateItemRow(i);
 				Bundle b = new Bundle();
 				b.putBoolean("isData", true);
 				b.putString("Data", i.description);

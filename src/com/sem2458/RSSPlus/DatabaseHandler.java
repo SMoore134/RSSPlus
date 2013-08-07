@@ -19,15 +19,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 
 
-	//true is for tableId = ItemLists false is for feedLists
+	
 	public DatabaseHandler(Context context, String name) {
 		super(context, name, null, 1);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
-
 		db.execSQL(DatabaseHandlerHelper.createTableString(true));
 		db.execSQL(DatabaseHandlerHelper.createTableString(false));
 	}
@@ -288,6 +286,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		cursor.close();
 		return a;
 
+	}
+
+	public String getUnread(String title) {
+		String query = "Select * FROM " +DatabaseHandlerHelper.itemTable + " WHERE "+DatabaseHandlerHelper.keyFeedName+" = \""+title+"\" AND read = "+"0";
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(query,null);
+		int count = cursor.getCount();
+		db.close();
+		cursor.close();
+		return String.valueOf(count);
+		
 	}
 
 	

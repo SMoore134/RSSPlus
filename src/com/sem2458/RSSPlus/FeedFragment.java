@@ -49,7 +49,7 @@ public class FeedFragment extends Fragment {
 			list =(ListView)V.findViewById(R.id.feed_list_view);
 			registerForContextMenu(list);
 			setListClick();
-			adapter = new RSSListAdapter2(getActivity(), a, false,getActivity().getApplicationContext());
+			adapter = new RSSListAdapter2(getActivity(),0, a);
 			
 			list.setAdapter(adapter);
 			return V;
