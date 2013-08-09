@@ -46,7 +46,7 @@ public class ItemListFragment extends Fragment{
 		setHasOptionsMenu(true);
 		View V = inflater.inflate(R.layout.item_list_fragment, container, false);
 		list = new ListView(getActivity().getApplicationContext());
-		DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+		DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 		ArrayList<Object> a = new ArrayList<Object>();
 		Bundle b = this.getArguments();
 		
@@ -57,7 +57,7 @@ public class ItemListFragment extends Fragment{
 				Item it = (Item)o;
 				Log.d("Stephen",it.title);
 				Log.d("Stephen",String.valueOf(it.pubDate));
-			}a2 = a;
+			}
 			getActivity().setTitle(feedName);
 			getActivity().getActionBar().show();
 		}else if(b.containsKey("favorites")){
@@ -77,6 +77,7 @@ public class ItemListFragment extends Fragment{
 			}
 			getActivity().getActionBar().show();
 		}
+		a2 = a;
 		list =(ListView)V.findViewById(R.id.item_list_view);
 		registerForContextMenu(list);
 		setListClick();
@@ -92,10 +93,9 @@ public class ItemListFragment extends Fragment{
 			public void onItemClick(AdapterView<?> customerAdapter, View view, int selectedInt, long selectedLong){
 				TextView t = (TextView)view.findViewById(R.id.itemtext1);
 				String s = t.getText().toString();
-				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 				Item i = (Item) a2.get(selectedInt);
-				i.read="1";
-				handler.updateItemRow(i);
+
 				Bundle b = new Bundle();
 				b.putBoolean("isData", true);
 				b.putString("Data", i.description);
@@ -127,7 +127,7 @@ public class ItemListFragment extends Fragment{
         View v = info.targetView;
         TextView t = (TextView)v.findViewById(R.id.itemtext1);
         String title = t.getText().toString();
-		DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+		DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 		onSelectedListener callback = (onSelectedListener)getActivity();
 		Item i = (Item) a2.get(info.position);
 		if(item.getTitle() == getString(R.string.delete)){

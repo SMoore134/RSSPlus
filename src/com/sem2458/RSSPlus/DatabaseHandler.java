@@ -13,21 +13,24 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.sem2458.RSSPlus.DatabaseHandlerHelper;;
+import com.sem2458.RSSPlus.DHH;;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
 
 
 
-	
+	//true is for tableId = ItemLists false is for feedLists
 	public DatabaseHandler(Context context, String name) {
 		super(context, name, null, 1);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(DatabaseHandlerHelper.createTableString(true));
-		db.execSQL(DatabaseHandlerHelper.createTableString(false));
+		// TODO Auto-generated method stub
+
+		db.execSQL(DHH.createFeedsTableString());
+		db.execSQL(DHH.createItemTableString());
+		db.execSQL(DHH.createSettingsTableString());
 	}
 
 	@Override
@@ -39,10 +42,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		Log.d("Stephen","addrow");
 		try{SQLiteDatabase db = this.getWritableDatabase();
 		if(table==true){
-			db.insert(DatabaseHandlerHelper.itemTable, null, values);
+			db.insert(DHH.itemTable, null, values);
 			db.close();
 		}else{
-			db.insert(DatabaseHandlerHelper.feedsTable, null, values);
+			db.insert(DHH.feedsTable, null, values);
 			db.close();
 		}
 		}catch(Exception e){
@@ -56,9 +59,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		ArrayList<Object> ItemList = new ArrayList<Object>();
 		// Select All Query
 		StringBuilder selectQuery = new StringBuilder();
-		selectQuery.append("SELECT * FROM ").append(DatabaseHandlerHelper.itemTable);
+		selectQuery.append("SELECT * FROM ").append(DHH.itemTable);
 		if(!feed.equals(null))	
-			selectQuery.append(" WHERE "+ DatabaseHandlerHelper.keyFeedName+" = ").append("'"+feed+"'").append(" ORDER BY "+DatabaseHandlerHelper.keyPubDate+" DESC");
+			selectQuery.append(" WHERE "+ DHH.keyFeedName+" = ").append("'"+feed+"'").append(" ORDER BY "+DHH.keyPubDate+" DESC");
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery.toString(), null);
 
@@ -89,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		// Select All Query
 
 		StringBuilder selectQuery = new StringBuilder();
-		selectQuery.append("SELECT * FROM ").append(DatabaseHandlerHelper.feedsTable);
+		selectQuery.append("SELECT * FROM ").append(DHH.feedsTable);
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery.toString(), null);
 
@@ -115,10 +118,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		try{SQLiteDatabase db=this.getWritableDatabase();
 		Log.d("Stephen", "title:"+title+"!!!!!!!!");
 		if(!table){
-			db.execSQL("DELETE FROM " + DatabaseHandlerHelper.feedsTable + " WHERE feedName" + " = '"+title+"'");
-			db.execSQL("DELETE FROM " + DatabaseHandlerHelper.itemTable + " WHERE feedName" + " = '"+title+"'");
+			db.execSQL("DELETE FROM " + DHH.feedsTable + " WHERE feedName" + " = '"+title+"'");
+			db.execSQL("DELETE FROM " + DHH.itemTable + " WHERE feedName" + " = '"+title+"'");
 		}else if(table){
-			db.execSQL("DELETE FROM " + DatabaseHandlerHelper.itemTable + " WHERE _id" + " = "+id);
+			db.execSQL("DELETE FROM " + DHH.itemTable + " WHERE _id" + " = "+id);
 		}
 		db.close();
 		//db.delete(DatabaseHandlerHelper.feedsTable, null, null);
@@ -136,7 +139,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		values.put("feedName", channel.title);
 		values.put("pubdate", channel.lastBuildDate);
 		values.put("_id", channel.id);
-		db.update(DatabaseHandlerHelper.feedsTable, values, "_id="+channel.id, null);
+		db.update(DHH.feedsTable, values, "_id="+channel.id, null);
 		db.close();
 	}
 	
@@ -154,13 +157,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		values.put("feed", i.feed);
 		values.put("Favorite", i.favorite);
 		values.put("_id",i.id);
-		db.update(DatabaseHandlerHelper.itemTable, values, "_id="+i.id,null);
+		db.update(DHH.itemTable, values, "_id="+i.id,null);
 		db.close();
 	}
 
 	public ArrayList<String> getDownloadLinks() {
 		Log.d("Stephen","getDownloadlinks");
-		String query = "SELECT feed FROM " +DatabaseHandlerHelper.feedsTable;
+		String query = "SELECT feed FROM " +DHH.feedsTable;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query,null);
 		ArrayList<String> links = new ArrayList<String>();
@@ -177,7 +180,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	public String getLastBuildDate(String title) {
 		
 		Log.d("Stephen","getlastbuilddate");
-		String query = "Select pubdate FROM " +DatabaseHandlerHelper.feedsTable +" WHERE feedName = '" +title+"'";
+		String query = "Select pubdate FROM " +DHH.feedsTable +" WHERE feedName = '" +title+"'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query,null);
 		cursor.moveToFirst();
@@ -192,9 +195,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		Log.d("Stephen","getfeedRow");
 		String query;
 		if(feed!=null)
-			query = "Select * FROM " +DatabaseHandlerHelper.feedsTable +" WHERE feed = '" + feed +"'";
+			query = "Select * FROM " +DHH.feedsTable +" WHERE feed = '" + feed +"'";
 		else
-			query = "Select * FROM " +DatabaseHandlerHelper.feedsTable +" WHERE feedName = '" + feedName +"'";
+			query = "Select * FROM " +DHH.feedsTable +" WHERE feedName = '" + feedName +"'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query,null);
 		cursor.moveToFirst();
@@ -210,7 +213,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 	public Item getItemRow(int id) {
 		Log.d("Stephen","getitemrow");
-		String query = "Select * FROM " +DatabaseHandlerHelper.itemTable +" WHERE "+DatabaseHandlerHelper.keyId + " = " + id;
+		String query = "Select * FROM " +DHH.itemTable +" WHERE "+DHH.keyId + " = " + id;
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery(query,null);
@@ -233,7 +236,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 	public ArrayList<Object> getFavorites() {
 		Log.d("Stephen","getfavorites");
-		String query = "Select * FROM " +DatabaseHandlerHelper.itemTable +" WHERE "+DatabaseHandlerHelper.keyFavorite + " = '1'" + " ORDER BY "+DatabaseHandlerHelper.keyPubDate+" DESC";
+		String query = "Select * FROM " +DHH.itemTable +" WHERE "+DHH.keyFavorite + " = '1'" + " ORDER BY "+DHH.keyPubDate+" DESC";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query,null);
 		cursor.moveToFirst();
@@ -261,7 +264,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 	public ArrayList<Object> getAll() {
 		Log.d("Stephen","getall");
-		String query = "Select * FROM " +DatabaseHandlerHelper.itemTable + " ORDER BY "+DatabaseHandlerHelper.keyId+" ASC";
+		String query = "Select * FROM " +DHH.itemTable + " ORDER BY "+DHH.keyId+" ASC";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query,null);
 		cursor.moveToFirst();
@@ -286,17 +289,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		cursor.close();
 		return a;
 
-	}
-
-	public String getUnread(String title) {
-		String query = "Select * FROM " +DatabaseHandlerHelper.itemTable + " WHERE "+DatabaseHandlerHelper.keyFeedName+" = \""+title+"\" AND read = "+"0";
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(query,null);
-		int count = cursor.getCount();
-		db.close();
-		cursor.close();
-		return String.valueOf(count);
-		
 	}
 
 	

@@ -11,7 +11,7 @@ import android.util.Log;
 import com.sem2458.RSSPlus.siteCheckThread;;
 
 public class siteCheckAlarm extends BroadcastReceiver{
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		//check if database says its ok to start this alarm manager
@@ -22,7 +22,6 @@ public class siteCheckAlarm extends BroadcastReceiver{
         }
 	}
 
-	
+
 
 }
-

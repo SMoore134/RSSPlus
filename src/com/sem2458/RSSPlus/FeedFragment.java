@@ -34,7 +34,7 @@ public class FeedFragment extends Fragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
-			MainActivity.id = this.getId();
+			//MainActivity.id = this.getId();
 		}
 		
 		@Override
@@ -43,13 +43,13 @@ public class FeedFragment extends Fragment {
 			setHasOptionsMenu(true);
 			View V = inflater.inflate(R.layout.feed_list_fragment, container, false);
 			list = new ListView(getActivity().getApplicationContext());
-			DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+			DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 			a = new ArrayList<Object>();
 			a = handler.getAllFeeds();
 			list =(ListView)V.findViewById(R.id.feed_list_view);
 			registerForContextMenu(list);
 			setListClick();
-			adapter = new RSSListAdapter2(getActivity(),0, a);
+			adapter = new RSSListAdapter2(getActivity(), a, false,getActivity().getApplicationContext());
 			
 			list.setAdapter(adapter);
 			return V;
@@ -109,7 +109,7 @@ public class FeedFragment extends Fragment {
 	        TextView t = (TextView)v.findViewById(R.id.listtext1);
 	        TextView t2 = (TextView)v.findViewById(R.id.listtext2);
 	        String title = t.getText().toString();
-			DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+			DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 			Channel channel = handler.getFeedRow(null, title);
 			if(item.getTitle() == getString(R.string.delete_feed)){
 				handler.deleteFeedRow(false, title, 0);

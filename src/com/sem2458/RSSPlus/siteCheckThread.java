@@ -31,14 +31,14 @@ public class siteCheckThread implements Runnable{
 	public Channel channel;
 	public boolean checkMulti;
 	public boolean updateUI;
-	public List<Item> items;
+	List<Item> items;
 
 	public siteCheckThread(Context context, Activity activity, Channel channel, boolean checkMulti, boolean updateUI){
 		this.context = context;
 		this.activity = activity;
 		this.channel = channel;
 		this.checkMulti = checkMulti;
-		items = new ArrayList<Item>();
+		this.items = new ArrayList<Item>();
 	}
 	@Override
 	public void run() {
@@ -49,20 +49,15 @@ public class siteCheckThread implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Item i = new Item();
-		i.author = "";
 		if(activity!=null){
 			onSelectedListener callback = (onSelectedListener)activity;
 			callback.onDone();
-		}
-		if(!updateUI){
-			RSSNotification.setNotification(items.size());
 		}
 
 	}
 
 	public void downloadLinks() throws IOException{
-		DatabaseHandler handler = new DatabaseHandler(context, DatabaseHandlerHelper.dataBaseName);
+		DatabaseHandler handler = new DatabaseHandler(context, DHH.dataBaseName);
 		ArrayList<String> listString;
 		if(!checkMulti){
 			listString = new ArrayList<String>();
@@ -91,15 +86,15 @@ public class siteCheckThread implements Runnable{
 		}
 		for(Item item: items){
 			ContentValues values = new ContentValues();
-			values.put(DatabaseHandlerHelper.keyAuthor, item.author);
-			values.put(DatabaseHandlerHelper.keyDescription, item.description);
-			values.put(DatabaseHandlerHelper.keyFeed, channel.link);
-			values.put(DatabaseHandlerHelper.keyFeedName, channel.title);
-			values.put(DatabaseHandlerHelper.keyLink, item.link);
-			values.put(DatabaseHandlerHelper.keyPubDate, item.pubDate);
-			values.put(DatabaseHandlerHelper.keyRead, "0");
-			values.put(DatabaseHandlerHelper.keyTitle, item.title);
-			values.put(DatabaseHandlerHelper.keyFavorite, "0");
+			values.put(DHH.keyAuthor, item.author);
+			values.put(DHH.keyDescription, item.description);
+			values.put(DHH.keyFeed,item.feed);
+			values.put(DHH.keyFeedName, item.feedName);
+			values.put(DHH.keyLink, item.link);
+			values.put(DHH.keyPubDate, item.pubDate);
+			values.put(DHH.keyRead, "0");
+			values.put(DHH.keyTitle, item.title);
+			values.put(DHH.keyFavorite, "0");
 			handler.addRow(true, values);
 			
 		}
@@ -149,6 +144,7 @@ public class siteCheckThread implements Runnable{
 	}
 
 	public void Parser(InputStream in, String link) throws XmlPullParserException, IOException{
+		
 		Item item = null;
 		Log.d("Stephen", channel.title);
 		String text = "";
@@ -158,7 +154,7 @@ public class siteCheckThread implements Runnable{
 		String lastBuildDate = channel.lastBuildDate;
 		Log.d("Stephen", "first lastbuilddate: "+channel.lastBuildDate);
 		boolean isChannel = true;
-		DatabaseHandler handler = new DatabaseHandler(context, DatabaseHandlerHelper.dataBaseName);
+		DatabaseHandler handler = new DatabaseHandler(context, DHH.dataBaseName);
 		try{
 			factory = XmlPullParserFactory. newInstance();
 			factory.setNamespaceAware(true);
@@ -268,7 +264,6 @@ public class siteCheckThread implements Runnable{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 
 	public static String replace(String source, String regex, String replacement){

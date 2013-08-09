@@ -3,12 +3,12 @@
 
     <string name="app_name">RSS Plus</string>
     <string name="action_settings">Settings</string>
-    <string name="new_feed">+</string>
+    <string name="new_feed">New Feed</string>
     <string name="feed_link_t">Feed URL</string>
     <string name="feed_name_t">Feed Name</string>
 	<string name="delete_feed">Delete Feed</string>
 	<string name="refresh_feed">Refresh feed</string>
-	<string name="refresh_feeds">&gt;</string>
+	<string name="refresh_feeds">Refesh All</string>
 	<string name="back_page">Back</string>
 	<string name="forward_page">Forward</string>
 	<string name="user_agent">User Agent</string>
@@ -27,5 +27,6 @@
 	<string name="desc"></string>
 	<string name="delete">Delete</string>
 	<string name="favorite">Toggle Favorite</string>
+	<string name="feed_settings">Settings</string>
 	
 </resources>

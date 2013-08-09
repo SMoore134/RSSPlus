@@ -15,12 +15,12 @@ import android.widget.ArrayAdapter;
 
 
 public class MainActivity extends Activity implements OnNavigationListener , onSelectedListener{
-	
+
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	public static int whichFrag;
 	Tab tab;	
 	public static int id;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 		Fragment f = new FeedFragment();
 		whichFrag = 0;
 		getFragmentManager().beginTransaction().add(R.id.main_activity, f).commit();
-	
+
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 		switch(itemPosition){
 			case 0:
 				f = new FeedFragment();
-				
+
 				getFragmentManager().beginTransaction().replace(R.id.main_activity, f).commit();
 				break;
 			case 1:
@@ -84,12 +84,12 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 				f.setArguments(b);
 				getFragmentManager().beginTransaction().replace(R.id.main_activity, f).commit();
 				break;
-				
+
 		}
 		return true;
 	}
 
-	
+
 	public void onDone() {
 		Fragment f = getFragmentManager().findFragmentById(id);
 		FragmentTransaction fm = getFragmentManager().beginTransaction();
@@ -97,7 +97,7 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 		fm.detach(f);
 		fm.attach(f);
 		fm.commit();
-		
+
 	}
 
 	@Override
@@ -108,10 +108,10 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 		fm.detach(f);
 		fm.attach(f);
 		fm.commit();
-		
+
 	}
-	
-	
+
+
 //	@Override
 //	public boolean onOptionsItemSelected(MenuItem item) {
 //	   // handle item selection

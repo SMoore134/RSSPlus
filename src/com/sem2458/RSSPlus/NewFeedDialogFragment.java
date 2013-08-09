@@ -28,7 +28,7 @@ public class NewFeedDialogFragment extends DialogFragment{
 		Button button = (Button) view.findViewById(R.id.done_add_feed);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DatabaseHandlerHelper.dataBaseName);
+				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 				ContentValues values = new ContentValues();
 				EditText feedText = (EditText) view.findViewById(R.id.feed_link_entry);
 				if(feedText==null)
@@ -37,9 +37,9 @@ public class NewFeedDialogFragment extends DialogFragment{
 				if(feedNameText==null)
 					Log.d("Stephen","feednametext is null");
 				if(!feedText.getText().toString().isEmpty() && !feedNameText.getText().toString().isEmpty()){
-					values.put(DatabaseHandlerHelper.keyFeedName, feedNameText.getText().toString());
-					values.put(DatabaseHandlerHelper.keyFeed, feedText.getText().toString());
-					values.put(DatabaseHandlerHelper.keyPubDate, "0");
+					values.put(DHH.keyFeedName, feedNameText.getText().toString());
+					values.put(DHH.keyFeed, feedText.getText().toString());
+					values.put(DHH.keyPubDate, "0");
 					handler.addRow(false, values);
 					exit();
 				}

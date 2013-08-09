@@ -9,6 +9,7 @@
         android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.INTERNET" /> 
 	<uses-permission android:name='android.permission.WAKE_LOCK'/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<receiver android:name=".siteCheckAlarm">
+			<intent-filter>
+        		<action android:name="android.intent.action.BOOT_COMPLETED"/>
+    		</intent-filter>
+		</receiver>
         <activity android:name="com.sem2458.RSSPlus.SecondActivity" android:configChanges="orientation|screenSize"/>
     </application>
 

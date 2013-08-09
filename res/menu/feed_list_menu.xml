@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item
-      android:id="@+id/new_feed"
-      android:orderInCategory="1"
-      android:showAsAction="ifRoom"
-      android:icon="@drawable/content_new"
-      android:title="@string/new_feed">
-   </item>
    <item
-      android:id="@+id/refresh_feeds"
+      android:id="@+id/overflow_menu"
       android:orderInCategory="1"
       android:showAsAction="ifRoom"
-      android:icon="@drawable/navigation_refresh"
-      android:title="@string/refresh_feeds">
-   </item>
-
+      android:icon="@drawable/ic_action_overflow">
+    	<menu>
+    		<item
+      			android:id="@+id/new_feed"
+      
+      			android:icon="@drawable/content_new"
+      			android:title="@string/new_feed">
+   			</item>
+   			<item
+      			android:id="@+id/refresh_feeds"
+      
+      			android:icon="@drawable/navigation_refresh"
+      			android:title="@string/refresh_feeds">
+   			</item>
+   			<item
+      			android:id="@+id/feed_settings"
+      
+      			android:title="@string/feed_settings">
+   			</item>
+   		</menu>
+    </item>
 </menu>
