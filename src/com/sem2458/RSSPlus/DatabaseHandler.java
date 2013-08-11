@@ -291,6 +291,26 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 	}
 
+	public int getUnread(String title) {
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(DHH.itemTable, new String[]{DHH.keyTitle}, DHH.keyRead+"=? AND "+DHH.keyFeedName+"=?", new String[]{"0",title}, "", "", "");
+		int count = cursor.getCount();
+		db.close();
+		cursor.close();
+		return count;
+	}
+
+	public boolean checkIfInItemsTable(Item item) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(DHH.itemTable, new String[]{DHH.keyTitle},DHH.keyTitle+"=? AND " + DHH.keyFeedName+"=? AND " + DHH.keyPubDate+"=?", new String[]{item.title, item.feedName, item.pubDate}, "", "", "");
+		int count = cursor.getCount();
+		Log.d("Stephen", item.title+" "+count);
+		db.close();
+		cursor.close();
+		return count>0;
+	}
+
 	
 
 }

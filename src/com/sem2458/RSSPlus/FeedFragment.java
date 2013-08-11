@@ -34,7 +34,7 @@ public class FeedFragment extends Fragment {
 		@Override
 		public void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
-			//MainActivity.id = this.getId();
+			MainActivity.id = this.getId();
 		}
 		
 		@Override
@@ -49,7 +49,7 @@ public class FeedFragment extends Fragment {
 			list =(ListView)V.findViewById(R.id.feed_list_view);
 			registerForContextMenu(list);
 			setListClick();
-			adapter = new RSSListAdapter2(getActivity(), a, false,getActivity().getApplicationContext());
+			adapter = new RSSListAdapter2(getActivity(), 0, a);
 			
 			list.setAdapter(adapter);
 			return V;
@@ -114,7 +114,7 @@ public class FeedFragment extends Fragment {
 			if(item.getTitle() == getString(R.string.delete_feed)){
 				handler.deleteFeedRow(false, title, 0);
 				onSelectedListener callback = (onSelectedListener)getActivity();
-				callback.onDone();
+				callback.onDone(this.getId());
 	        }else if(item.getTitle() == getString(R.string.refresh_feed)){
 	        	siteCheckThread thr = new siteCheckThread(getActivity().getApplicationContext(), getActivity(),channel, false, true);
 				Thread thread = new Thread(thr);

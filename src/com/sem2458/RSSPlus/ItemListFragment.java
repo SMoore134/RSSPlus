@@ -91,11 +91,12 @@ public class ItemListFragment extends Fragment{
 	private void setListClick() {
 		list.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> customerAdapter, View view, int selectedInt, long selectedLong){
-				TextView t = (TextView)view.findViewById(R.id.itemtext1);
-				String s = t.getText().toString();
+				
+				
 				DatabaseHandler handler = new DatabaseHandler(getActivity().getApplicationContext(), DHH.dataBaseName);
 				Item i = (Item) a2.get(selectedInt);
-
+				i.read = "1";
+				handler.updateItemRow(i);
 				Bundle b = new Bundle();
 				b.putBoolean("isData", true);
 				b.putString("Data", i.description);
