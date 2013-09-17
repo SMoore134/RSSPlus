@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,9 @@ public class RSSListAdapter extends ArrayAdapter<Object>{
 		ImageView image = (ImageView)row.findViewById(R.id.imageView1);
 		Item item = (Item) objects.get(position);
 		text.setText(item.title);
+		if(item.read.equals("1")){
+			text.setTextColor(Color.GRAY);
+		}
 		if(item.favorite.equals("1")){
 			image.setImageResource(R.drawable.rating_important);
 		}

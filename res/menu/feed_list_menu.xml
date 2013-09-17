@@ -23,6 +23,10 @@
       
       			android:title="@string/feed_settings">
    			</item>
+   			<item
+   			    android:id="@+id/delete_old"
+   			    android:title="@string/delete_old">
+   			</item>
    		</menu>
     </item>
 </menu>

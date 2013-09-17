@@ -2,6 +2,8 @@ package com.sem2458.RSSPlus;
 
 
 
+
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -10,11 +12,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class SecondActivity  extends Activity implements onSelectedListener{
-	
+	Intent sender;
+	int id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Intent sender = getIntent();
+		sender = getIntent();
 		String feed = (String) sender.getExtras().get("feed");
 		setContentView(R.layout.activity_main);
 		Fragment f = new ItemListFragment();
@@ -22,6 +25,7 @@ public class SecondActivity  extends Activity implements onSelectedListener{
 		args.putString("feedName", feed);
 		f.setArguments(args);
 		getFragmentManager().beginTransaction().add(R.id.main_activity, f).commit();
+		setResult(1,sender);
 	}
 
 	public void onDone(int id) {
@@ -38,6 +42,18 @@ public class SecondActivity  extends Activity implements onSelectedListener{
 	public void onDone() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void onBackPressed(){
+		Log.d("Stephen", "Back was pressed");
+		Intent data = new Intent();
+		if (getParent() == null) {
+		    setResult(Activity.RESULT_OK, data);
+		} else {
+		    getParent().setResult(Activity.RESULT_OK, data);
+		}
+		finish();
 	}
 
 	

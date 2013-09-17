@@ -9,6 +9,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
@@ -126,5 +127,26 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 //	   }
 //
 //	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+		Log.d("Stephen", "back to this fragment");
+		onDone(id);
+	}
+	
+	public void goActivity(String s){
+		Intent intent = new Intent(this, SecondActivity.class);
+		intent.putExtra("feed", s);
+		int result  = 1;
+		startActivityForResult(intent, result);
+	}
+
+	public void deleteOld() {
+		DatabaseHandler handler = new DatabaseHandler(this, DHH.dataBaseName);
+		Long age = (long) 604800000;
+		handler.deleteOldItems(age, false);
+		onDone(id);
+	}
 
 }

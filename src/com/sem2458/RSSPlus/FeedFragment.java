@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -61,10 +62,9 @@ public class FeedFragment extends Fragment {
 				public void onItemClick(AdapterView<?> customerAdapter, View view, int selectedInt, long selectedLong){
 					TextView t = (TextView)view.findViewById(R.id.listtext1);
 					String s = t.getText().toString();
-					Intent intent = new Intent(getActivity(), SecondActivity.class);
-					intent.putExtra("feed", s);
-					int result  = 1;
-					startActivityForResult(intent, result);
+					MainActivity a = (MainActivity)getActivity();
+					a.goActivity(s);
+					
 				}	
 			});
 		}
@@ -90,6 +90,10 @@ public class FeedFragment extends Fragment {
 		    	 Thread t = new Thread(sct);
 		    	 t.start();
 		    	 return true;
+		      case R.id.delete_old:
+		    	  Log.d("Stephen","delete old");
+		    	  MainActivity a = (MainActivity)getActivity();
+					a.deleteOld();
 		      default:
 		         return super.onOptionsItemSelected(item);
 		   }

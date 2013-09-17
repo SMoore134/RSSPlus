@@ -26,6 +26,7 @@
 	<string name="meta">&lt;meta name=\"viewport\" content=\"target-densitydpi=device-dpi, width=device-width\" /&gt;</string>
 	<string name="desc"></string>
 	<string name="delete">Delete</string>
+	<string name="delete_old">Delete Old</string>
 	<string name="favorite">Toggle Favorite</string>
 	<string name="feed_settings">Settings</string>
 	

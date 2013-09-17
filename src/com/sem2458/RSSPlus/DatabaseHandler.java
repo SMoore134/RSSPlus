@@ -311,6 +311,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		return count>0;
 	}
 
+	public void deleteOldItems(Long age, boolean deleteFaves) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		Log.d("Stephen","deleting old");
+		if(!deleteFaves)
+			db.delete(DHH.itemTable, DHH.keyPubDate+"<? AND " + DHH.keyFavorite+"=?", new String[]{String.valueOf(System.currentTimeMillis()-age),"0"});
+		else
+			db.delete(DHH.itemTable, DHH.keyPubDate+"<?", new String[]{String.valueOf(System.currentTimeMillis()-age)});
+		db.close();
+	}
+
 	
 
 }
