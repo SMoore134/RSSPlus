@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 
@@ -147,6 +148,16 @@ public class MainActivity extends Activity implements OnNavigationListener , onS
 		Long age = (long) 604800000;
 		handler.deleteOldItems(age, false);
 		onDone(id);
+	}
+	
+	@Override
+	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) 
+	    {
+	        super.finish();
+	        return true;
+	    }
+	    return super.onKeyLongPress(keyCode, event);
 	}
 
 }

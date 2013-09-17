@@ -32,6 +32,7 @@ public class WebViewFragment extends Fragment {
 		data = b.getString("Data");
 		title = b.getString("Title");
 		link = b.getString("Link");
+		SecondActivity.id = 2;
 		
 	}
 	

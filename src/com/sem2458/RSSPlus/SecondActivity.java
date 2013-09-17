@@ -10,10 +10,11 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 
 public class SecondActivity  extends Activity implements onSelectedListener{
 	Intent sender;
-	int id;
+	public static int id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,7 +25,7 @@ public class SecondActivity  extends Activity implements onSelectedListener{
 		Bundle args = new Bundle();
 		args.putString("feedName", feed);
 		f.setArguments(args);
-		getFragmentManager().beginTransaction().add(R.id.main_activity, f).commit();
+		getFragmentManager().beginTransaction().add(R.id.main_activity, f, "itemList").commit();
 		setResult(1,sender);
 	}
 
@@ -47,6 +48,7 @@ public class SecondActivity  extends Activity implements onSelectedListener{
 	@Override
 	public void onBackPressed(){
 		Log.d("Stephen", "Back was pressed");
+		if(id==1){
 		Intent data = new Intent();
 		if (getParent() == null) {
 		    setResult(Activity.RESULT_OK, data);
@@ -54,6 +56,24 @@ public class SecondActivity  extends Activity implements onSelectedListener{
 		    getParent().setResult(Activity.RESULT_OK, data);
 		}
 		finish();
+		}else if(id==2){
+			WebViewFragment frag = (WebViewFragment) this.getFragmentManager().findFragmentByTag("web");
+			if(frag.webView.canGoBack())
+				frag.webView.goBack();
+			else{
+				SecondActivity.id = 1;
+				super.onBackPressed();
+			}
+		}
+	}
+	@Override
+	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) 
+	    {
+	        super.finish();
+	        return true;
+	    }
+	    return super.onKeyLongPress(keyCode, event);
 	}
 
 	

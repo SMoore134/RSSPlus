@@ -37,7 +37,7 @@ public class ItemListFragment extends Fragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-
+		SecondActivity.id = 1;
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class ItemListFragment extends Fragment{
 				b.putString("Link", i.link);
 				Fragment f = new WebViewFragment();
 				f.setArguments(b);
-				getFragmentManager().beginTransaction().addToBackStack("Trans").replace(R.id.main_activity, f).commit();
+				getFragmentManager().beginTransaction().addToBackStack("Trans").replace(R.id.main_activity, f,"web").commit();
 				
 //				Intent intent = new Intent(getActivity(), WebViewActivity.class);
 //				intent.putExtra("Bundle", b);

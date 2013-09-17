@@ -4,14 +4,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/feed_link"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:text="@string/feed_link_t" />
 
     <EditText
@@ -23,7 +21,6 @@
         android:id="@+id/feed_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:text="@string/feed_name_t"/>
 
     <EditText
